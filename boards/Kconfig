@@ -937,6 +937,14 @@ config ARCH_BOARD_SMARTL_C906
 		This is the board configuration for the port of NuttX to the
 		THEAD smartl-c906 board. This board features the RISC-V C906.
 
+config ARCH_BOARD_DUO
+	bool "Milk-v Duo board"
+	depends on ARCH_CHIP_CV1800B
+	select ARCH_HAVE_LEDS
+	---help---
+		This is the board configuration for the port of NuttX to the
+		milk-v duo board. This board features the RISC-V CV1800B.
+
 config ARCH_BOARD_ICICLE_MPFS
 	bool "Polarfire Icicle evaluation board for MPFS"
 	depends on ARCH_CHIP_MPFS
@@ -3104,6 +3112,7 @@ config ARCH_BOARD
 	default "lx_cpu"                    if ARCH_BOARD_LX_CPU
 	default "maix-bit"                  if ARCH_BOARD_MAIX_BIT
 	default "smartl-c906"               if ARCH_BOARD_SMARTL_C906
+	default "duo"               		if ARCH_BOARD_DUO
 	default "icicle"                    if ARCH_BOARD_ICICLE_MPFS
 	default "m100pfsevp"                if ARCH_BOARD_M100PFSEVP_MPFS
 	default "maple"                     if ARCH_BOARD_MAPLE
@@ -4072,6 +4081,9 @@ source "boards/risc-v/k210/maix-bit/Kconfig"
 endif
 if ARCH_BOARD_SMARTL_C906
 source "boards/risc-v/c906/smartl-c906/Kconfig"
+endif
+if ARCH_BOARD_DUO
+source "boards/risc-v/cv1800b/duo/Kconfig"
 endif
 if ARCH_BOARD_ICICLE_MPFS
 source "boards/risc-v/mpfs/icicle/Kconfig"
