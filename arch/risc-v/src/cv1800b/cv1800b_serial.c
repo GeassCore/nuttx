@@ -217,7 +217,7 @@ static void up_restoreuartint(struct up_dev_s *priv, uint8_t im)
   irqstate_t flags = enter_critical_section();
 
   priv->im = im;
-  up_serialout(priv, UART_IE_OFFSET, im);
+  up_serialout(priv, UART_IER_OFFSET, im);
 
   leave_critical_section(flags);
 }
@@ -240,7 +240,7 @@ static void up_disableuartint(struct up_dev_s *priv, uint8_t *im)
   /* Disable all interrupts */
 
   priv->im = 0;
-  up_serialout(priv, UART_IE_OFFSET, 0);
+  up_serialout(priv, UART_IER_OFFSET, 0);
   leave_critical_section(flags);
 }
 
@@ -307,7 +307,7 @@ static int up_attach(struct uart_dev_s *dev)
 
   /* Initialize interrupt generation on the peripheral */
 
-  up_serialout(priv, UART_IE_OFFSET,
+  up_serialout(priv, UART_IER_OFFSET,
                IER_RDA_INT_ENABLE | IER_THRE_INT_ENABLE);
 
   ret = irq_attach(priv->irq, up_interrupt, dev);
@@ -462,7 +462,7 @@ static void up_rxint(struct uart_dev_s *dev, bool enable)
       priv->im &= ~IER_RDA_INT_ENABLE;
     }
 
-  up_serialout(priv, UART_IE_OFFSET, priv->im);
+  up_serialout(priv, UART_IER_OFFSET, priv->im);
   leave_critical_section(flags);
 }
 
@@ -524,7 +524,7 @@ static void up_txint(struct uart_dev_s *dev, bool enable)
 
 #ifndef CONFIG_SUPPRESS_SERIAL_INTS
       priv->im |= IER_THRE_INT_ENABLE;
-      up_serialout(priv, UART_IE_OFFSET, priv->im);
+      up_serialout(priv, UART_IER_OFFSET, priv->im);
 
       /* Fake a TX interrupt here by just calling uart_xmitchars() with
        * interrupts disabled (note this may recurse).
@@ -538,7 +538,7 @@ static void up_txint(struct uart_dev_s *dev, bool enable)
       /* Disable the TX interrupt */
 
       priv->im &= ~IER_THRE_INT_ENABLE;
-      up_serialout(priv, UART_IE_OFFSET, priv->im);
+      up_serialout(priv, UART_IER_OFFSET, priv->im);
     }
 
   leave_critical_section(flags);

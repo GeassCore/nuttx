@@ -28,8 +28,8 @@
 /* Register Base Address ****************************************************/
 
 #define CV1800B_PLIC_BASE    (0x70000000ULL)
-#define CV1800B_CLINT_BASE   (CV1800B_PLIC_BASE + 0x400000UL)
-#define CV1800B_CORET_BASE   (CV1800B_PLIC_BASE + 0x400000UL)
+#define CV1800B_CLINT_BASE   (0x74000000ULL)
+//#define CV1800B_CORET_BASE   (CV1800B_PLIC_BASE + 0x4000000UL)
 
 #define CV1800B_UART0_BASE   0x04140000UL
 

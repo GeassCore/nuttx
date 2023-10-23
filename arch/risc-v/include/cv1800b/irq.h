@@ -33,10 +33,11 @@
 
 #define CV1800B_IRQ_PERI_START   (RISCV_IRQ_ASYNC)
 
-#define CV1800B_IRQ_UART0        (CV1800B_IRQ_PERI_START + 28)
+//#define CV1800B_IRQ_UART0        (CV1800B_IRQ_PERI_START + 28)
+#define CV1800B_IRQ_UART0        (44)
 
 /* Total number of IRQs */
 
-#define NR_IRQS               (101)
+#define NR_IRQS               (64)
 
 #endif /* __ARCH_RISCV_INCLUDE_CV1800B_IRQ_H */
