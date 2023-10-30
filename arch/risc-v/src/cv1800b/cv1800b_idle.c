@@ -1,5 +1,5 @@
 /****************************************************************************
- * arch/risc-v/include/cv1800b/irq.h
+ * arch/risc-v/src/cv1800b/cv1800b_idle.c
  *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -18,26 +18,50 @@
  *
  ****************************************************************************/
 
-#ifndef __ARCH_RISCV_INCLUDE_CV1800B_IRQ_H
-#define __ARCH_RISCV_INCLUDE_CV1800B_IRQ_H
-
 /****************************************************************************
  * Included Files
  ****************************************************************************/
 
+#include <nuttx/config.h>
+#include <nuttx/irq.h>
+#include <nuttx/arch.h>
+#include <nuttx/board.h>
+#include <arch/board/board.h>
+
+#include "riscv_internal.h"
+
 /****************************************************************************
- * Pre-processor Definitions
+ * Public Functions
  ****************************************************************************/
 
-/* Map RISC-V exception code to NuttX IRQ */
+/****************************************************************************
+ * Name: up_idle
+ *
+ * Description:
+ *   up_idle() is the logic that will be executed when there is no other
+ *   ready-to-run task.  This is processor idle time and will continue until
+ *   some interrupt occurs to cause a context switch from the idle task.
+ *
+ *   Processing in this state may be processor-specific. e.g., this is where
+ *   power management operations might be performed.
+ *
+ ****************************************************************************/
 
-#define CV1800B_IRQ_PERI_START   (RISCV_IRQ_ASYNC)
+void up_idle(void)
+{
+#if defined(CONFIG_SUPPRESS_INTERRUPTS) || defined(CONFIG_SUPPRESS_TIMER_INTS)
+  /* If the system is idle and there are no timer interrupts, then process
+   * "fake" timer interrupts. Hopefully, something will wake up.
+   */
 
-//#define CV1800B_IRQ_UART0        (CV1800B_IRQ_PERI_START + 28)
-#define CV1800B_IRQ_UART0        (30)
+  nxsched_process_timer();
+#else
 
-/* Total number of IRQs */
+  /* This would be an appropriate place to put some MCU-specific logic to
+   * sleep in a reduced power mode until an interrupt occurs to save power
+   */
 
-#define NR_IRQS               (61)
+  asm("WFI");
 
-#endif /* __ARCH_RISCV_INCLUDE_CV1800B_IRQ_H */
+#endif
+}

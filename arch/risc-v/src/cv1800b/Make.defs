@@ -28,7 +28,7 @@ HEAD_ASRC = cv1800b_head.S
 CHIP_CSRCS  = cv1800b_allocateheap.c cv1800b_clockconfig.c
 CHIP_CSRCS += cv1800b_irq.c cv1800b_irq_dispatch.c
 CHIP_CSRCS += cv1800b_lowputc.c cv1800b_serial.c
-CHIP_CSRCS += cv1800b_start.c cv1800b_timerisr.c
+CHIP_CSRCS += cv1800b_start.c cv1800b_timerisr.c cv1800b_idle.c
 
 ifeq ($(CONFIG_BUILD_PROTECTED),y)
 CHIP_CSRCS += cv1800b_userspace.c

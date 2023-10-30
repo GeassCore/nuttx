@@ -35,7 +35,7 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
-#define KRAM_END CONFIG_RAM_END
+#define KRAM_END (CONFIG_RAM_START + CONFIG_RAM_SIZE)
 
 /****************************************************************************
  * Public Functions
